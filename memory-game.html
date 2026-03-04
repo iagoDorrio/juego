@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Memoria - Asociación de Imágenes y Descripciones</title>
+    <link rel="stylesheet" href="resources/css/memory-game.css">
+</head>
+<body>
+    <div class="container">
+        <h1>👩‍💻 Mujeres en Ciencia e Informática</h1>
+        <div class="game-info">
+            <p>Asocia cada mujer con su logro destacable</p>
+            <div class="game-stats-container">
+                 <button class="btn btn-start" id="startBtn" onclick="startGame()">▶️ Iniciar Juego</button>
+                <button class="btn btn-reset" id="resetBtn" onclick="resetGame()" style="display: none;">🔄 Reiniciar Juego</button>
+                <div class="game-stats">
+                    <p><strong>Parejas encontradas: <span id="matches">0</span> / 10</strong></p>
+                    <p><strong>Intentos: <span id="attempts">0</span></strong></p>
+                    <p><strong>Tiempo: <span id="timer">00:00</span></strong></p>
+                </div>
+               
+            </div>
+        </div>
+
+        <div class="game-board">
+            <div class="card-section">
+                <div class="section-title">👩‍🔬 Científicas e Informáticas</div>
+                <div class="cards-grid" id="images-grid"></div>
+            </div>
+
+            <div class="card-section">
+                <div class="section-title">🏆 Sus Logros</div>
+                <div class="cards-grid" id="descriptions-grid"></div>
+            </div>
+        </div>
+
+        <!-- Controles eliminados y movidos a la parte superior -->
+    </div>
+
+
+
+    <div class="overlay" id="overlay"></div>
+    <div class="victory-message" id="victoryMessage">
+        <button class="close-button" onmousedown="event.stopPropagation(); document.getElementById('overlay').classList.remove('show'); document.getElementById('victoryMessage').classList.remove('show'); return false;" onclick="return false;">✕</button>
+        <div class="victory-header">
+            <div class="victory-title">
+                <h2>🎉 ¡Felicidades!</h2>
+                <p id="victoryText">Has encontrado todas las parejas</p>
+            </div>
+            <div class="stats-boxes">
+                <div class="stats-box" id="timeBox">
+                    <div class="stats-box-title">TIEMPO</div>
+                    <div class="stats-box-value" id="finalTime">00:00.000</div>
+                </div>
+                <div class="stats-box" id="attemptsBox">
+                    <div class="stats-box-title">INTENTOS</div>
+                    <div class="stats-box-value" id="finalAttempts">0</div>
+                </div>
+            </div>
+        </div>
+        <div id="scientistsList">
+            <h3>📋 Lista de Científicas y sus Logros</h3>
+            <div id="scientistsContainer"></div>
+        </div>
+        <div id="nameForm">
+            <input type="text" id="playerName" placeholder="Introduce tu nombre">
+            <button class="btn" onclick="generateCertificate()">Generar Certificado</button>
+        </div>
+        <div id="certificateSection" style="display: none;">
+            <div id="inspirationalMessage">
+                <p>🌟 REFLEXIÓN 🌟</p>
+                <p>"No necesitas aplausos ni reconocimiento.<br>
+                Cada paso que das, cada desafío que superas y cada aprendizaje que te llevas suman fuerza para transformar la realidad. 💜<br>
+                ¿Estás list@ para celebrar tu valentía, tu voz y tu capacidad de cambiar el mundo? ✨"</p>
+                <p>Entre todos tenemos que hacer que esto cambie y que cada vez las mujeres tengan más visibilidad en la ciencia y tecnología.</p>
+                <p>💪 Por una sociedad más justa, diversa, digna, equitativa e igualitaria que respete, defienda y mejore todos los derechos de todas las mujeres. 💪</p>
+                <p>¡Cada día es 8M! ♀️</p>
+            </div>
+            <button class="btn" onclick="resetGame()">🔄 Jugar de nuevo</button>
+        </div>
+    </div>
+
+    <script src="resources/js/memory-game.js"></script>
+</body>
+</html>
