@@ -37,84 +37,136 @@
             </div>
         </div>
         
-        <div class="grid-modulos">
-            <!-- Módulo 1: Conoce las Letras -->
-            <div class="tarjeta-modulo" onclick="iniciarModulo('conoce-letras')">
-                <div class="icono-modulo">🌺</div>
-                <h3>Conoce las Letras</h3>
-                <p>Aprende el abecedario</p>
-                <div class="progreso-modulo">
-                    <div class="barra-progreso">
-                        <div class="barra-relleno" style="width: 0%"></div>
-                    </div>
+        <!-- Categorías del Menú -->
+        <div class="seccion-menu">
+            <h3 class="titulo-categoria">📚 Aprende las Letras</h3>
+            <div class="grid-modulos">
+                <div class="tarjeta-modulo" onclick="iniciarModulo('conoce-letras')">
+                    <div class="icono-modulo">🌺</div>
+                    <h3>Conoce las Letras</h3>
+                    <p>Aprende el abecedario</p>
+                </div>
+
+                <div class="tarjeta-modulo" onclick="iniciarModulo('encuentra-letra')">
+                    <div class="icono-modulo">🔍</div>
+                    <h3>Encuentra la Letra</h3>
+                    <p>Escucha y toca</p>
+                </div>
+
+                <div class="tarjeta-modulo" onclick="iniciarModulo('forma-palabras')">
+                    <div class="icono-modulo">🌼</div>
+                    <h3>Forma Palabras</h3>
+                    <p>Ordena las letras</p>
+                </div>
+
+                <div class="tarjeta-modulo" onclick="iniciarModulo('jardin-silabas')">
+                    <div class="icono-modulo">🌻</div>
+                    <h3>Jardín de Sílabas</h3>
+                    <p>Une las sílabas</p>
+                </div>
+
+                <div class="tarjeta-modulo" onclick="iniciarModulo('camino-abecedario')">
+                    <div class="icono-modulo">🌈</div>
+                    <h3>Camino del Abecedario</h3>
+                    <p>Recorre de A a Z</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Módulo 2: Encuentra la Letra -->
-            <div class="tarjeta-modulo" onclick="iniciarModulo('encuentra-letra')">
-                <div class="icono-modulo">🔍</div>
-                <h3>Encuentra la Letra</h3>
-                <p>Escucha y toca</p>
-                <div class="progreso-modulo">
-                    <div class="barra-progreso">
-                        <div class="barra-relleno" style="width: 0%"></div>
-                    </div>
+        <div class="seccion-menu">
+            <h3 class="titulo-categoria">🔢 Juegos de Números</h3>
+            <div class="grid-modulos">
+                <div class="tarjeta-modulo" onclick="iniciarModulo('granja-numeros')">
+                    <div class="icono-modulo">🐄</div>
+                    <h3>La Granja de Números</h3>
+                    <p>Cuenta y suma</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Módulo 3: Forma Palabras -->
-            <div class="tarjeta-modulo" onclick="iniciarModulo('forma-palabras')">
-                <div class="icono-modulo">🌼</div>
-                <h3>Forma Palabras</h3>
-                <p>Ordena las letras</p>
-                <div class="progreso-modulo">
-                    <div class="barra-progreso">
-                        <div class="barra-relleno" style="width: 0%"></div>
-                    </div>
+        <div class="seccion-menu">
+            <h3 class="titulo-categoria">🎨 Juegos Creativos</h3>
+            <div class="grid-modulos">
+                <div class="tarjeta-modulo" onclick="iniciarActividadExplorer('libro-colores')">
+                    <div class="icono-modulo">🎨</div>
+                    <h3>Libro de Colores</h3>
+                    <p>Colorea y crea</p>
+                </div>
+
+                <div class="tarjeta-modulo" onclick="iniciarActividadExplorer('clasificar-colores')">
+                    <div class="icono-modulo">🌈</div>
+                    <h3>Clasificar Colores</h3>
+                    <p>Ordena por color</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Módulo 4: Jardín de Sílabas -->
-            <div class="tarjeta-modulo" onclick="iniciarModulo('jardin-silabas')">
-                <div class="icono-modulo">🌻</div>
-                <h3>Jardín de Sílabas</h3>
-                <p>Une las sílabas</p>
-                <div class="progreso-modulo">
-                    <div class="barra-progreso">
-                        <div class="barra-relleno" style="width: 0%"></div>
-                    </div>
+        <div class="seccion-menu">
+            <h3 class="titulo-categoria">🧩 Juegos de Lógica</h3>
+            <div class="grid-modulos">
+                <div class="tarjeta-modulo" onclick="iniciarActividadExplorer('mapas')">
+                    <div class="icono-modulo">🗺️</div>
+                    <h3>Mapas del Tesoro</h3>
+                    <p>Encuentra el tesoro</p>
+                </div>
+
+                <div class="tarjeta-modulo" onclick="iniciarActividadExplorer('secuencias')">
+                    <div class="icono-modulo">🔢</div>
+                    <h3>Secuencias</h3>
+                    <p>Completa el patrón</p>
+                </div>
+
+                <div class="tarjeta-modulo" onclick="iniciarActividadExplorer('laberintos')">
+                    <div class="icono-modulo">🌳</div>
+                    <h3>Laberintos</h3>
+                    <p>Encuentra la salida</p>
+                </div>
+
+                <div class="tarjeta-modulo" onclick="iniciarActividadExplorer('diferencias')">
+                    <div class="icono-modulo">🔍</div>
+                    <h3>Encuentra Diferencias</h3>
+                    <p>Busca las diferencias</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Módulo 5: Camino del Abecedario -->
-            <div class="tarjeta-modulo" onclick="iniciarModulo('camino-abecedario')">
-                <div class="icono-modulo">🌈</div>
-                <h3>Camino del Abecedario</h3>
-                <p>Recorre de A a Z</p>
-                <div class="progreso-modulo">
-                    <div class="barra-progreso">
-                        <div class="barra-relleno" style="width: 0%"></div>
-                    </div>
+        <div class="seccion-menu">
+            <h3 class="titulo-categoria">🎯 Juegos de Memoria</h3>
+            <div class="grid-modulos">
+                <div class="tarjeta-modulo" onclick="iniciarModulo('memoria-magica')">
+                    <div class="icono-modulo">✨</div>
+                    <h3>Memoria Mágica</h3>
+                    <p>Encuentra las parejas</p>
+                </div>
+
+                <div class="tarjeta-modulo" onclick="iniciarActividadExplorer('sombras')">
+                    <div class="icono-modulo">👥</div>
+                    <h3>Emparejar Sombras</h3>
+                    <p>Une objeto y sombra</p>
+                </div>
+
+                <div class="tarjeta-modulo" onclick="iniciarActividadExplorer('parejas')">
+                    <div class="icono-modulo">🔗</div>
+                    <h3>Unir Parejas</h3>
+                    <p>Conecta relacionados</p>
+                </div>
+
+                <div class="tarjeta-modulo" onclick="iniciarActividadExplorer('simon')">
+                    <div class="icono-modulo">🎯</div>
+                    <h3>Simon Dice</h3>
+                    <p>Repite la secuencia</p>
                 </div>
             </div>
+        </div>
 
-            <!-- Módulo 6: La Granja de Números -->
-            <div class="tarjeta-modulo" onclick="iniciarModulo('granja-numeros')">
-                <div class="icono-modulo">🐄</div>
-                <h3>La Granja de Números</h3>
-                <p>Cuenta y suma</p>
-                <div class="progreso-modulo">
-                    <div class="barra-progreso">
-                        <div class="barra-relleno" style="width: 0%"></div>
-                    </div>
+        <div class="seccion-menu">
+            <h3 class="titulo-categoria">📊 Progreso</h3>
+            <div class="grid-modulos">
+                <div class="tarjeta-modulo" onclick="mostrarEstadisticas()">
+                    <div class="icono-modulo">📊</div>
+                    <h3>Mi Progreso</h3>
+                    <p>Ver estadísticas</p>
                 </div>
-            </div>
-
-            <!-- Módulo 7: Estadísticas -->
-            <div class="tarjeta-modulo" onclick="mostrarEstadisticas()">
-                <div class="icono-modulo">📊</div>
-                <h3>Mi Progreso</h3>
-                <p>Ver estadísticas</p>
             </div>
         </div>
     </div>
@@ -349,6 +401,49 @@
         </div>
     </div>
 
+    <!-- Pantalla: Memoria Mágica -->
+    <div id="pantalla-memoria-magica" class="pantalla">
+        <div class="header-juego">
+            <button class="boton-volver" onclick="volverAlMenu()">⬅️ Volver</button>
+            <h2>Memoria Mágica ✨</h2>
+            <div class="info-juego">
+                <span>Movimientos: <span id="movimientos-memoria">0</span></span>
+                <span>Parejas: <span id="parejas-memoria">0/0</span></span>
+            </div>
+        </div>
+        
+        <div class="contenedor-juego">
+            <!-- Selector de Nivel y Tema -->
+            <div id="selector-nivel-tema" class="selector-nivel-tema"></div>
+            
+            <!-- Tablero del Juego -->
+            <div id="tablero-memoria" class="tablero-memoria" style="display:none;"></div>
+            
+            <button class="boton-principal" onclick="reiniciarMemoria()" style="margin-top:2rem;">
+                🔄 Nuevo Juego
+            </button>
+        </div>
+    </div>
+
+    <!-- Pantalla: Raquel Exploradora -->
+    <div id="pantalla-raquel-exploradora" class="pantalla">
+        <div class="header-juego">
+            <button class="boton-volver" onclick="volverAlMenu()">⬅️ Volver</button>
+            <h2>Raquel Exploradora 🗺️</h2>
+            <div class="puntuacion">
+                <span>⭐ <span id="puntos-explorer">0</span> puntos</span>
+            </div>
+        </div>
+        
+        <div class="contenedor-juego">
+            <!-- Menú de Actividades -->
+            <div id="menu-actividades-explorer"></div>
+            
+            <!-- Contenedor de Actividades (se muestra cuando se selecciona una actividad) -->
+            <div id="contenedor-actividades-explorer" style="display:none;"></div>
+        </div>
+    </div>
+
     <!-- Modal de Celebración -->
     <div id="modal-celebracion" class="modal">
         <div class="modal-contenido celebracion">
@@ -366,6 +461,9 @@
     <script src="js/svg-illustrations.js"></script>
     <script src="js/farm-animals-generator.js"></script>
     <script src="js/numbers-game-engine.js"></script>
+    <script src="js/memory-game-engine.js"></script>
+    <script src="js/explorer-game-data-colores.js"></script>
+    <script src="js/explorer-game-engine.js"></script>
     <script src="js/game-engine.js"></script>
     <script src="js/app.js"></script>
 </body>

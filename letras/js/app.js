@@ -138,6 +138,14 @@ function iniciarModulo(moduloId) {
             App.mostrarPantalla('pantalla-granja-numeros');
             NumbersGameEngine.cargarMonedas();
             break;
+        case 'memoria-magica':
+            App.mostrarPantalla('pantalla-memoria-magica');
+            MemoryGameEngine.iniciar();
+            break;
+        case 'raquel-exploradora':
+            App.mostrarPantalla('pantalla-raquel-exploradora');
+            ExplorerGameEngine.iniciar();
+            break;
     }
 }
 
@@ -235,6 +243,45 @@ function volverAGranja() {
     NumbersGameEngine.cargarMonedas();
 }
 
+// Funciones para el módulo de Memoria Mágica
+function reiniciarMemoria() {
+    MemoryGameEngine.reiniciar();
+}
+
+// Función para iniciar actividades de Explorer directamente desde el menú principal
+function iniciarActividadExplorer(actividad) {
+    App.mostrarPantalla('pantalla-raquel-exploradora');
+    
+    if (typeof ExplorerGameEngine === 'undefined') {
+        console.error('ExplorerGameEngine no está disponible');
+        return;
+    }
+    
+    // Mapeo de actividades
+    const mapaActividades = {
+        'mapas': 'iniciarMapasTesoro',
+        'secuencias': 'iniciarSecuencias',
+        'laberintos': 'iniciarLaberintos',
+        'libro-colores': 'iniciarLibroColores',
+        'diferencias': 'iniciarDiferencias',
+        'sombras': 'iniciarSombras',
+        'parejas': 'iniciarUnirParejas',
+        'simon': 'iniciarSimonDice',
+        'clasificar-colores': 'iniciarClasificarColores'
+    };
+    
+    const nombreFuncion = mapaActividades[actividad];
+    
+    if (nombreFuncion && typeof ExplorerGameEngine[nombreFuncion] === 'function') {
+        // Llamar directamente a la función de la actividad
+        ExplorerGameEngine[nombreFuncion]();
+    } else {
+        // Si no se encuentra la función, iniciar el motor normalmente
+        console.warn(`Actividad '${actividad}' no encontrada, iniciando menú de Explorer`);
+        ExplorerGameEngine.iniciar();
+    }
+}
+
 // Exportar funciones globalmente
 window.App = App;
 window.mostrarMenu = mostrarMenu;
@@ -246,6 +293,8 @@ window.cerrarModal = cerrarModal;
 window.reiniciarJuego = reiniciarJuego;
 window.iniciarJuegoNumeros = iniciarJuegoNumeros;
 window.volverAGranja = volverAGranja;
+window.reiniciarMemoria = reiniciarMemoria;
+window.iniciarActividadExplorer = iniciarActividadExplorer;
 
 // Protección contra errores
 window.addEventListener('error', function(e) {
