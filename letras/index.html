@@ -98,7 +98,19 @@
                 </div>
             </div>
 
-            <!-- Módulo 6: Estadísticas -->
+            <!-- Módulo 6: La Granja de Números -->
+            <div class="tarjeta-modulo" onclick="iniciarModulo('granja-numeros')">
+                <div class="icono-modulo">🐄</div>
+                <h3>La Granja de Números</h3>
+                <p>Cuenta y suma</p>
+                <div class="progreso-modulo">
+                    <div class="barra-progreso">
+                        <div class="barra-relleno" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 7: Estadísticas -->
             <div class="tarjeta-modulo" onclick="mostrarEstadisticas()">
                 <div class="icono-modulo">📊</div>
                 <h3>Mi Progreso</h3>
@@ -202,6 +214,110 @@
         </div>
     </div>
 
+    <!-- Pantalla: La Granja de Números - Menú -->
+    <div id="pantalla-granja-numeros" class="pantalla">
+        <div class="header-juego">
+            <button class="boton-volver" onclick="volverAlMenu()">⬅️ Volver</button>
+            <h2>La Granja de Números 🐄</h2>
+            <div class="puntuacion">
+                <span>🌟 <span id="puntos-granja">0</span> puntos</span>
+            </div>
+        </div>
+        
+        <div class="contenedor-juego">
+            <div class="grid-modulos">
+                <div class="tarjeta-modulo" onclick="iniciarJuegoNumeros('conteo')">
+                    <div class="icono-modulo">🐑</div>
+                    <h3>¿Cuántos Hay?</h3>
+                    <p>Cuenta los animales</p>
+                </div>
+                <div class="tarjeta-modulo" onclick="iniciarJuegoNumeros('suma')">
+                    <div class="icono-modulo">🐮</div>
+                    <h3>Suma Animales</h3>
+                    <p>Suma y aprende</p>
+                </div>
+                <div class="tarjeta-modulo" onclick="iniciarJuegoNumeros('decorar')">
+                    <div class="icono-modulo">🏡</div>
+                    <h3>Decora tu Granja</h3>
+                    <p>Personaliza tu granja</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla: Juego de Conteo -->
+    <div id="pantalla-conteo-animales" class="pantalla">
+        <div class="header-juego">
+            <button class="boton-volver" onclick="volverAGranja()">⬅️ Volver</button>
+            <h2>¿Cuántos Hay? 🐑</h2>
+            <div class="vidas">
+                <span id="corazones-conteo">❤️❤️❤️</span>
+            </div>
+        </div>
+        
+        <div class="contenedor-juego">
+            <div class="instruccion-juego">
+                <p id="pregunta-conteo">¿Cuántos animales ves?</p>
+            </div>
+            <div id="zona-animales" class="zona-animales"></div>
+            <div id="opciones-numeros" class="grid-opciones-numeros"></div>
+            <div class="puntuacion">
+                <p>Nivel: <span id="nivel-conteo">1</span> | Aciertos: <span id="aciertos-conteo">0</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla: Juego de Sumas -->
+    <div id="pantalla-suma-animales" class="pantalla">
+        <div class="header-juego">
+            <button class="boton-volver" onclick="volverAGranja()">⬅️ Volver</button>
+            <h2>Suma Animales 🐮</h2>
+            <div class="vidas">
+                <span id="corazones-suma">❤️❤️❤️</span>
+            </div>
+        </div>
+        
+        <div class="contenedor-juego">
+            <div class="instruccion-juego">
+                <p id="pregunta-suma">Suma los animales</p>
+            </div>
+            <div class="operacion-suma">
+                <div id="grupo1-suma" class="grupo-animales"></div>
+                <div class="signo-operacion">+</div>
+                <div id="grupo2-suma" class="grupo-animales"></div>
+                <div class="signo-operacion">=</div>
+                <div class="resultado-suma">?</div>
+            </div>
+            <div id="opciones-suma" class="grid-opciones-numeros"></div>
+            <div class="puntuacion">
+                <p>Nivel: <span id="nivel-suma">1</span> | Aciertos: <span id="aciertos-suma">0</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla: Decorar Granja -->
+    <div id="pantalla-decorar-granja" class="pantalla">
+        <div class="header-juego">
+            <button class="boton-volver" onclick="volverAGranja()">⬅️ Volver</button>
+            <h2>Decora tu Granja 🏡</h2>
+            <div class="puntuacion">
+                <span>🌟 <span id="monedas-decoracion">0</span> monedas</span>
+            </div>
+        </div>
+        
+        <div class="contenedor-juego">
+            <div id="canvas-granja" class="canvas-granja">
+                <div class="mensaje-decoracion">
+                    <p>🎉 ¡Gana monedas jugando para desbloquear decoraciones!</p>
+                </div>
+            </div>
+            <div class="selector-decoraciones">
+                <h3>Decoraciones Disponibles</h3>
+                <div id="tienda-decoraciones" class="grid-decoraciones"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Pantalla: Estadísticas -->
     <div id="pantalla-estadisticas" class="pantalla">
         <div class="header-juego">
@@ -248,6 +364,8 @@
     <script src="js/audio-synth.js"></script>
     <script src="js/letter-generator.js"></script>
     <script src="js/svg-illustrations.js"></script>
+    <script src="js/farm-animals-generator.js"></script>
+    <script src="js/numbers-game-engine.js"></script>
     <script src="js/game-engine.js"></script>
     <script src="js/app.js"></script>
 </body>

@@ -593,6 +593,109 @@ body {
     box-shadow: 0 3px 0 #8B0000, 0 4px 10px var(--sombra);
 }
 
+/* Estilos para La Granja de Números */
+.zona-animales {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: var(--espaciado-grande);
+    background: var(--blanco);
+    border-radius: 20px;
+    box-shadow: 0 6px 15px var(--sombra-suave);
+    min-height: 200px;
+}
+
+.grid-opciones-numeros {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: var(--espaciado-medio);
+    max-width: 400px;
+    width: 100%;
+}
+
+.operacion-suma {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--espaciado-medio);
+    flex-wrap: wrap;
+    padding: var(--espaciado-grande);
+    background: var(--blanco);
+    border-radius: 20px;
+    box-shadow: 0 6px 15px var(--sombra-suave);
+}
+
+.grupo-animales {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: var(--espaciado-medio);
+    background: #F5F5F5;
+    border-radius: 15px;
+    min-width: 100px;
+    justify-content: center;
+}
+
+.signo-operacion {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--texto-oscuro);
+}
+
+.resultado-suma {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--flor-rosa);
+    min-width: 60px;
+    text-align: center;
+}
+
+.canvas-granja {
+    background: linear-gradient(180deg, #87CEEB 0%, #90EE90 60%);
+    border-radius: 20px;
+    padding: var(--espaciado-grande);
+    min-height: 600px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto var(--espaciado-grande) auto;
+    box-shadow: 0 6px 15px var(--sombra-suave);
+    position: relative;
+}
+
+.mensaje-decoracion {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background: var(--blanco);
+    padding: var(--espaciado-grande);
+    border-radius: 15px;
+    box-shadow: 0 4px 10px var(--sombra);
+}
+
+.selector-decoraciones {
+    background: var(--blanco);
+    padding: var(--espaciado-grande);
+    border-radius: 20px;
+    box-shadow: 0 6px 15px var(--sombra-suave);
+}
+
+.selector-decoraciones h3 {
+    text-align: center;
+    color: var(--texto-oscuro);
+    margin-bottom: var(--espaciado-medio);
+}
+
+.grid-decoraciones {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--espaciado-medio);
+}
+
 @media (max-width: 768px) {
     .titulo-principal {
         font-size: 1.8rem;

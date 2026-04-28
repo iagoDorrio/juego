@@ -134,6 +134,10 @@ function iniciarModulo(moduloId) {
             App.mostrarPantalla('pantalla-camino-abecedario');
             GameEngine.caminoAbecedario.iniciar();
             break;
+        case 'granja-numeros':
+            App.mostrarPantalla('pantalla-granja-numeros');
+            NumbersGameEngine.cargarMonedas();
+            break;
     }
 }
 
@@ -208,6 +212,29 @@ function reiniciarJuego() {
     }
 }
 
+// Funciones para el módulo de La Granja de Números
+function iniciarJuegoNumeros(tipo) {
+    switch(tipo) {
+        case 'conteo':
+            App.mostrarPantalla('pantalla-conteo-animales');
+            NumbersGameEngine.iniciarJuegoConteo();
+            break;
+        case 'suma':
+            App.mostrarPantalla('pantalla-suma-animales');
+            NumbersGameEngine.iniciarJuegoSuma();
+            break;
+        case 'decorar':
+            App.mostrarPantalla('pantalla-decorar-granja');
+            NumbersGameEngine.iniciarDecoracion();
+            break;
+    }
+}
+
+function volverAGranja() {
+    App.mostrarPantalla('pantalla-granja-numeros');
+    NumbersGameEngine.cargarMonedas();
+}
+
 // Exportar funciones globalmente
 window.App = App;
 window.mostrarMenu = mostrarMenu;
@@ -217,6 +244,8 @@ window.mostrarEstadisticas = mostrarEstadisticas;
 window.mostrarCelebracion = mostrarCelebracion;
 window.cerrarModal = cerrarModal;
 window.reiniciarJuego = reiniciarJuego;
+window.iniciarJuegoNumeros = iniciarJuegoNumeros;
+window.volverAGranja = volverAGranja;
 
 // Protección contra errores
 window.addEventListener('error', function(e) {
