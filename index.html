@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>🎨 Juego de Dibujo Mágico</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Arial Rounded MT Bold', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            overflow-x: hidden;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin: 15px 0;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            animation: bounce 2s infinite;
+        }
+
+        .header h1 {
+            font-size: clamp(24px, 6vw, 42px);
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: clamp(14px, 3vw, 18px);
+            opacity: 0.9;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .canvas-container {
+            position: relative;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        #drawingCanvas {
+            display: block;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .magic-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .magic-overlay.active {
+            opacity: 1;
+        }
+
+        .tools-container {
+            background: white;
+            border-radius: 20px;
+            padding: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            margin: 10px 0;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .color-palette {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .color-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 4px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .color-btn:active {
+            transform: scale(0.9);
+        }
+
+        .color-btn.active {
+            border-color: #333;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+
+        .size-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .size-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #667eea;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            font-size: 12px;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .size-btn.active {
+            background: #667eea;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .size-btn:active {
+            transform: scale(0.9);
+        }
+
+        .tool-btn {
+            padding: 15px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            font-family: inherit;
+            min-width: 140px;
+        }
+
+        .tool-btn:active {
+            transform: scale(0.95);
+        }
+
+        .eraser-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+
+        .clear-btn {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            color: white;
+        }
+
+        .magic-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            font-size: 24px;
+            padding: 20px 40px;
+            animation: pulse 2s infinite;
+            margin: 15px 0;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            animation: sparkleAnim 1s forwards;
+        }
+
+        @keyframes sparkleAnim {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(1);
+                opacity: 0;
+            }
+        }
+
+        .effect-name {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: white;
+            text-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 1000;
+            animation: showEffect 2s forwards;
+        }
+
+        @keyframes showEffect {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .canvas-container {
+                width: 95vw;
+                max-width: 600px;
+            }
+
+            #drawingCanvas {
+                width: 100%;
+                height: auto;
+            }
+
+            .tools-container {
+                width: 95vw;
+            }
+
+            .color-btn {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .color-btn {
+                width: 45px;
+                height: 45px;
+            }
+
+            .size-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 10px;
+            }
+
+            .tool-btn {
+                padding: 12px 20px;
+                font-size: 16px;
+                min-width: 120px;
+            }
+
+            .magic-btn {
+                font-size: 20px;
+                padding: 15px 30px;
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .loading.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🎨 Juego de Dibujo Mágico ✨</h1>
+        <p>¡Dibuja y transforma tu arte!</p>
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="drawingCanvas" width="800" height="600"></canvas>
+        <div class="magic-overlay" id="magicOverlay"></div>
+    </div>
+
+    <div class="tools-container">
+        <div class="section-title">🎨 Elige tu color</div>
+        <div class="color-palette" id="colorPalette">
+            <div class="color-btn active" style="background: #FF0000;" data-color="#FF0000"></div>
+            <div class="color-btn" style="background: #00FF00;" data-color="#00FF00"></div>
+            <div class="color-btn" style="background: #0000FF;" data-color="#0000FF"></div>
+            <div class="color-btn" style="background: #FFFF00;" data-color="#FFFF00"></div>
+            <div class="color-btn" style="background: #FF00FF;" data-color="#FF00FF"></div>
+            <div class="color-btn" style="background: #FF8800;" data-color="#FF8800"></div>
+            <div class="color-btn" style="background: #00FFFF;" data-color="#00FFFF"></div>
+            <div class="color-btn" style="background: #000000;" data-color="#000000"></div>
+        </div>
+
+        <div class="section-title">📏 Tamaño del lápiz</div>
+        <div class="size-controls">
+            <div class="size-btn" data-size="5">●<br>S</div>
+            <div class="size-btn active" data-size="10">●<br>M</div>
+            <div class="size-btn" data-size="20">●<br>L</div>
+        </div>
+
+        <div class="action-buttons">
+            <button class="tool-btn eraser-btn" id="eraserBtn">🧹 Goma</button>
+            <button class="tool-btn clear-btn" id="clearBtn">🗑️ Borrar Todo</button>
+        </div>
+    </div>
+
+    <button class="tool-btn magic-btn" id="magicBtn">✨ ¡TRANSFORMAR! ✨</button>
+
+    <div class="action-buttons">
+        <button class="tool-btn save-btn" id="saveBtn">💾 Guardar</button>
+    </div>
+
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <script>
+        // Canvas setup
+        const canvas = document.getElementById('drawingCanvas');
+        const ctx = canvas.getContext('2d');
+        const magicOverlay = document.getElementById('magicOverlay');
+        const loading = document.getElementById('loading');
+
+        // Responsive canvas
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            const maxWidth = Math.min(800, window.innerWidth - 20);
+            const maxHeight = Math.min(600, window.innerHeight * 0.5);
+            
+            canvas.width = maxWidth;
+            canvas.height = maxHeight;
+            
+            // Restore white background
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Drawing state
+        let isDrawing = false;
+        let currentColor = '#FF0000';
+        let currentSize = 10;
+        let isEraser = false;
+        let currentEffect = null;
+
+        // Initialize white background
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Drawing functions
+        function startDrawing(e) {
+            isDrawing = true;
+            const pos = getPosition(e);
+            ctx.beginPath();
+            ctx.moveTo(pos.x, pos.y);
+            draw(e);
+        }
+
+        function draw(e) {
+            if (!isDrawing) return;
+            
+            e.preventDefault();
+            const pos = getPosition(e);
+            
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.lineWidth = currentSize;
+            ctx.strokeStyle = isEraser ? 'white' : currentColor;
+            
+            ctx.lineTo(pos.x, pos.y);
+            ctx.stroke();
+        }
+
+        function stopDrawing() {
+            isDrawing = false;
+            ctx.beginPath();
+        }
+
+        function getPosition(e) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            
+            let clientX, clientY;
+            
+            if (e.touches && e.touches[0]) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            
+            return {
+                x: (clientX - rect.left) * scaleX,
+                y: (clientY - rect.top) * scaleY
+            };
+        }
+
+        // Mouse events
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mouseleave', stopDrawing);
+
+        // Touch events
+        canvas.addEventListener('touchstart', startDrawing);
+        canvas.addEventListener('touchmove', draw);
+        canvas.addEventListener('touchend', stopDrawing);
+        canvas.addEventListener('touchcancel', stopDrawing);
+
+        // Color palette
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentColor = this.dataset.color;
+                isEraser = false;
+                createSparkles(this);
+                
+                // Haptic feedback
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            });
+        });
+
+        // Size controls
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentSize = parseInt(this.dataset.size);
+                
+                // Haptic feedback
+                if (navigator.vibrate) {
+                    navigator.vibrate(50);
+                }
+            });
+        });
+
+        // Eraser button
+        document.getElementById('eraserBtn').addEventListener('click', function() {
+            isEraser = !isEraser;
+            this.style.opacity = isEraser ? '0.6' : '1';
+            this.textContent = isEraser ? '✏️ Lápiz' : '🧹 Goma';
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate(100);
+            }
+        });
+
+        // Clear button
+        document.getElementById('clearBtn').addEventListener('click', function() {
+            if (confirm('¿Quieres borrar todo el dibujo?')) {
+                ctx.fillStyle = 'white';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                removeEffect();
+                
+                // Haptic feedback
+                if (navigator.vibrate) {
+                    navigator.vibrate([100, 50, 100]);
+                }
+            }
+        });
+
+        // AI-like drawing analyzer
+        function analyzeDrawing() {
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const pixels = imageData.data;
+            
+            let totalPixels = 0;
+            let coloredPixels = 0;
+            let shapes = [];
+            let topHalf = 0;
+            let bottomHalf = 0;
+            let leftSide = 0;
+            let rightSide = 0;
+            
+            // Analyze pixel distribution
+            for (let i = 0; i < pixels.length; i += 4) {
+                const r = pixels[i];
+                const g = pixels[i + 1];
+                const b = pixels[i + 2];
+                
+                // Check if pixel is not white
+                if (r < 250 || g < 250 || b < 250) {
+                    coloredPixels++;
+                    const pixelIndex = i / 4;
+                    const x = pixelIndex % canvas.width;
+                    const y = Math.floor(pixelIndex / canvas.width);
+                    
+                    if (y < canvas.height / 2) topHalf++;
+                    else bottomHalf++;
+                    
+                    if (x < canvas.width / 2) leftSide++;
+                    else rightSide++;
+                }
+                totalPixels++;
+            }
+            
+            const coverage = coloredPixels / (totalPixels / 4);
+            const topBottomRatio = topHalf / (bottomHalf || 1);
+            const leftRightRatio = leftSide / (rightSide || 1);
+            const isBalanced = Math.abs(leftRightRatio - 1) < 0.3;
+            
+            // Detect what was drawn based on characteristics
+            let detection = {
+                type: 'abstract',
+                emoji: '🎨',
+                name: 'Arte Abstracto'
+            };
+            
+            if (coverage < 0.05) {
+                detection = { type: 'empty', emoji: '✨', name: '¡Dibuja algo!' };
+            } else if (topBottomRatio > 1.5 && coverage > 0.1) {
+                detection = { type: 'person', emoji: '👤', name: '¡Una Persona!' };
+            } else if (topBottomRatio < 0.7 && isBalanced) {
+                detection = { type: 'house', emoji: '🏠', name: '¡Una Casa!' };
+            } else if (coverage > 0.3 && !isBalanced) {
+                detection = { type: 'animal', emoji: '🐶', name: '¡Un Animal!' };
+            } else if (coverage > 0.2 && isBalanced) {
+                detection = { type: 'vehicle', emoji: '🚗', name: '¡Un Vehículo!' };
+            } else if (topBottomRatio > 2) {
+                detection = { type: 'tree', emoji: '🌳', name: '¡Un Árbol!' };
+            } else if (coverage > 0.15) {
+                detection = { type: 'object', emoji: '⭐', name: '¡Un Objeto!' };
+            }
+            
+            return detection;
+        }
+        
+        // Enhanced drawing effects based on detection
+        function applyEnhancedEffect(detection) {
+            // Save original canvas
+            const originalImage = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            
+            // Create temporary canvas for processing
+            const tempCanvas = document.createElement('canvas');
+            tempCanvas.width = canvas.width;
+            tempCanvas.height = canvas.height;
+            const tempCtx = tempCanvas.getContext('2d');
+            tempCtx.putImageData(originalImage, 0, 0);
+            
+            // Apply edge detection and enhancement
+            const enhanced = enhanceDrawing(originalImage);
+            ctx.putImageData(enhanced, 0, 0);
+            
+            // Apply specific effects based on detection
+            switch(detection.type) {
+                case 'person':
+                    canvas.style.filter = 'contrast(140%) brightness(110%) saturate(120%)';
+                    canvas.style.boxShadow = '0 0 20px rgba(100, 150, 255, 0.6)';
+                    break;
+                case 'house':
+                    canvas.style.filter = 'contrast(130%) brightness(105%) sepia(20%)';
+                    canvas.style.boxShadow = '0 0 20px rgba(255, 200, 100, 0.5)';
+                    break;
+                case 'animal':
+                    canvas.style.filter = 'contrast(135%) brightness(108%) saturate(140%)';
+                    canvas.style.boxShadow = '0 0 20px rgba(150, 255, 150, 0.5)';
+                    break;
+                case 'vehicle':
+                    canvas.style.filter = 'contrast(150%) brightness(110%) saturate(130%)';
+                    canvas.style.boxShadow = '0 0 20px rgba(255, 100, 100, 0.5)';
+                    break;
+                case 'tree':
+                    canvas.style.filter = 'contrast(125%) brightness(105%) saturate(150%) hue-rotate(-10deg)';
+                    canvas.style.boxShadow = '0 0 20px rgba(100, 255, 100, 0.6)';
+                    break;
+                default:
+                    canvas.style.filter = 'contrast(130%) brightness(110%) saturate(120%)';
+                    canvas.style.boxShadow = '0 0 20px rgba(200, 150, 255, 0.5)';
+            }
+        }
+        
+        // Enhance drawing using image processing
+        function enhanceDrawing(imageData) {
+            const data = imageData.data;
+            const enhanced = ctx.createImageData(imageData.width, imageData.height);
+            
+            // Apply edge enhancement and smoothing
+            for (let y = 1; y < imageData.height - 1; y++) {
+                for (let x = 1; x < imageData.width - 1; x++) {
+                    const idx = (y * imageData.width + x) * 4;
+                    
+                    // Get surrounding pixels for smoothing
+                    const neighbors = [
+                        getPixel(data, x-1, y-1, imageData.width),
+                        getPixel(data, x, y-1, imageData.width),
+                        getPixel(data, x+1, y-1, imageData.width),
+                        getPixel(data, x-1, y, imageData.width),
+                        getPixel(data, x, y, imageData.width),
+                        getPixel(data, x+1, y, imageData.width),
+                        getPixel(data, x-1, y+1, imageData.width),
+                        getPixel(data, x, y+1, imageData.width),
+                        getPixel(data, x+1, y+1, imageData.width)
+                    ];
+                    
+                    // Apply Gaussian blur for smoothing
+                    let r = 0, g = 0, b = 0;
+                    neighbors.forEach(p => {
+                        r += p.r;
+                        g += p.g;
+                        b += p.b;
+                    });
+                    
+                    enhanced.data[idx] = Math.min(255, r / 9);
+                    enhanced.data[idx + 1] = Math.min(255, g / 9);
+                    enhanced.data[idx + 2] = Math.min(255, b / 9);
+                    enhanced.data[idx + 3] = 255;
+                }
+            }
+            
+            return enhanced;
+        }
+        
+        function getPixel(data, x, y, width) {
+            const idx = (y * width + x) * 4;
+            return {
+                r: data[idx],
+                g: data[idx + 1],
+                b: data[idx + 2]
+            };
+        }
+        
+        // Magic effects (legacy - kept for variety)
+        const effects = [
+            {
+                name: '🌈 Arcoíris',
+                apply: () => {
+                    canvas.style.filter = 'hue-rotate(180deg) saturate(150%)';
+                    canvas.style.animation = 'rainbow 3s infinite';
+                }
+            },
+            {
+                name: '✨ Brillante',
+                apply: () => {
+                    canvas.style.filter = 'brightness(150%) saturate(200%) contrast(120%)';
+                }
+            },
+            {
+                name: '🌟 Neón',
+                apply: () => {
+                    canvas.style.filter = 'brightness(120%) contrast(150%) saturate(200%)';
+                    canvas.style.boxShadow = '0 0 30px rgba(255, 0, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.6)';
+                }
+            }
+        ];
+
+        // Add rainbow animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes rainbow {
+                0% { filter: hue-rotate(0deg) saturate(150%); }
+                100% { filter: hue-rotate(360deg) saturate(150%); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        function removeEffect() {
+            canvas.style.filter = 'none';
+            canvas.style.animation = 'none';
+            canvas.style.boxShadow = 'none';
+            currentEffect = null;
+        }
+
+        // Magic button with AI detection
+        document.getElementById('magicBtn').addEventListener('click', function() {
+            loading.classList.add('active');
+            
+            setTimeout(() => {
+                // Analyze what was drawn
+                const detection = analyzeDrawing();
+                
+                console.log('Detectado:', detection.name);
+                
+                // 70% chance to use AI detection, 30% random effect
+                if (Math.random() > 0.3 && detection.type !== 'empty') {
+                    // Apply enhanced effect based on detection
+                    applyEnhancedEffect(detection);
+                    showEffectName(detection.emoji + ' ' + detection.name);
+                } else {
+                    // Apply random magic effect
+                    const effect = effects[Math.floor(Math.random() * effects.length)];
+                    currentEffect = effect;
+                    effect.apply();
+                    showEffectName(effect.name);
+                }
+                
+                // Create magic particles
+                createMagicParticles();
+                
+                loading.classList.remove('active');
+                
+                // Haptic feedback
+                if (navigator.vibrate) {
+                    navigator.vibrate([200, 100, 200]);
+                }
+            }, 1500);
+        });
+
+        // Save button
+        document.getElementById('saveBtn').addEventListener('click', function() {
+            const link = document.createElement('a');
+            const timestamp = new Date().getTime();
+            link.download = `dibujo-magico-${timestamp}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            
+            // Try to share if available (mobile)
+            if (navigator.share && navigator.canShare) {
+                canvas.toBlob(blob => {
+                    const file = new File([blob], `dibujo-magico-${timestamp}.png`, { type: 'image/png' });
+                    if (navigator.canShare({ files: [file] })) {
+                        navigator.share({
+                            title: 'Mi Dibujo Mágico',
+                            text: '¡Mira mi dibujo mágico!',
+                            files: [file]
+                        }).catch(err => console.log('Share cancelled'));
+                    }
+                });
+            }
+            
+            // Haptic feedback
+            if (navigator.vibrate) {
+                navigator.vibrate(200);
+            }
+        });
+
+        // Sparkles effect
+        function createSparkles(element) {
+            const rect = element.getBoundingClientRect();
+            for (let i = 0; i < 5; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.textContent = '✨';
+                sparkle.style.left = rect.left + rect.width / 2 + 'px';
+                sparkle.style.top = rect.top + rect.height / 2 + 'px';
+                sparkle.style.setProperty('--tx', `${(Math.random() - 0.5) * 100}px`);
+                sparkle.style.setProperty('--ty', `${(Math.random() - 0.5) * 100}px`);
+                document.body.appendChild(sparkle);
+                
+                setTimeout(() => sparkle.remove(), 1000);
+            }
+        }
+
+        // Magic particles
+        function createMagicParticles() {
+            const particles = ['✨', '⭐', '🌟', '💫', '🎨', '🌈'];
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'sparkle';
+                    particle.textContent = particles[Math.floor(Math.random() * particles.length)];
+                    particle.style.left = Math.random() * window.innerWidth + 'px';
+                    particle.style.top = Math.random() * window.innerHeight + 'px';
+                    particle.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                    particle.style.setProperty('--tx', `${(Math.random() - 0.5) * 200}px`);
+                    particle.style.setProperty('--ty', `${(Math.random() - 0.5) * 200}px`);
+                    document.body.appendChild(particle);
+                    
+                    setTimeout(() => particle.remove(), 1000);
+                }, i * 50);
+            }
+        }
+
+        // Show effect name
+        function showEffectName(name) {
+            const effectDiv = document.createElement('div');
+            effectDiv.className = 'effect-name';
+            effectDiv.textContent = name;
+            document.body.appendChild(effectDiv);
+            
+            setTimeout(() => effectDiv.remove(), 2000);
+        }
+
+        // Prevent context menu on canvas (mobile)
+        canvas.addEventListener('contextmenu', e => e.preventDefault());
+        
+        // Prevent scrolling when touching the canvas
+        document.body.addEventListener('touchmove', function(e) {
+            if (e.target === canvas) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
+        // Fullscreen support
+        document.addEventListener('dblclick', function() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log('Fullscreen not available');
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        console.log('🎨 Juego de Dibujo Mágico cargado correctamente! ✨');
+        console.log('- Dibuja con el ratón o con tu dedo en móvil');
+        console.log('- Elige colores y tamaños');
+        console.log('- Pulsa TRANSFORMAR para efectos mágicos');
+        console.log('- Guarda tus creaciones con el botón Guardar');
+    </script>
+</body>
+</html>
