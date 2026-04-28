@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="El Jardín de las Letras de Raquel - Juego educativo de lectoescritura">
+    <meta name="theme-color" content="#87CEEB">
+    <title>🌸 El Jardín de las Letras de Raquel</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Pantalla de Bienvenida -->
+    <div id="pantalla-bienvenida" class="pantalla activa">
+        <div class="contenedor-bienvenida">
+            <h1 class="titulo-principal">
+                <span class="emoji-grande">🌸</span>
+                El Jardín de las Letras
+                <span class="emoji-grande">🌸</span>
+            </h1>
+            <div class="nombre-usuario">
+                <p class="texto-bienvenida">¡Hola, <span id="nombre-jugador">Raquel</span>!</p>
+            </div>
+            <div id="flores-decorativas" class="flores-decorativas"></div>
+            <button class="boton-principal" onclick="mostrarMenu()">
+                ¡Empezar a Jugar! 🎮
+            </button>
+        </div>
+    </div>
+
+    <!-- Menú Principal -->
+    <div id="menu-principal" class="pantalla">
+        <div class="header-menu">
+            <h2>Elige tu Aventura 🌈</h2>
+            <div class="info-progreso">
+                <span>⭐ <span id="estrellas-total">0</span></span>
+                <span>🌺 <span id="letras-dominadas">0</span>/27</span>
+            </div>
+        </div>
+        
+        <div class="grid-modulos">
+            <!-- Módulo 1: Conoce las Letras -->
+            <div class="tarjeta-modulo" onclick="iniciarModulo('conoce-letras')">
+                <div class="icono-modulo">🌺</div>
+                <h3>Conoce las Letras</h3>
+                <p>Aprende el abecedario</p>
+                <div class="progreso-modulo">
+                    <div class="barra-progreso">
+                        <div class="barra-relleno" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 2: Encuentra la Letra -->
+            <div class="tarjeta-modulo" onclick="iniciarModulo('encuentra-letra')">
+                <div class="icono-modulo">🔍</div>
+                <h3>Encuentra la Letra</h3>
+                <p>Escucha y toca</p>
+                <div class="progreso-modulo">
+                    <div class="barra-progreso">
+                        <div class="barra-relleno" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 3: Forma Palabras -->
+            <div class="tarjeta-modulo" onclick="iniciarModulo('forma-palabras')">
+                <div class="icono-modulo">🌼</div>
+                <h3>Forma Palabras</h3>
+                <p>Ordena las letras</p>
+                <div class="progreso-modulo">
+                    <div class="barra-progreso">
+                        <div class="barra-relleno" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 4: Jardín de Sílabas -->
+            <div class="tarjeta-modulo" onclick="iniciarModulo('jardin-silabas')">
+                <div class="icono-modulo">🌻</div>
+                <h3>Jardín de Sílabas</h3>
+                <p>Une las sílabas</p>
+                <div class="progreso-modulo">
+                    <div class="barra-progreso">
+                        <div class="barra-relleno" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 5: Camino del Abecedario -->
+            <div class="tarjeta-modulo" onclick="iniciarModulo('camino-abecedario')">
+                <div class="icono-modulo">🌈</div>
+                <h3>Camino del Abecedario</h3>
+                <p>Recorre de A a Z</p>
+                <div class="progreso-modulo">
+                    <div class="barra-progreso">
+                        <div class="barra-relleno" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Módulo 6: Estadísticas -->
+            <div class="tarjeta-modulo" onclick="mostrarEstadisticas()">
+                <div class="icono-modulo">📊</div>
+                <h3>Mi Progreso</h3>
+                <p>Ver estadísticas</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla: Conoce las Letras -->
+    <div id="pantalla-conoce-letras" class="pantalla">
+        <div class="header-juego">
+            <button class="boton-volver" onclick="volverAlMenu()">⬅️ Volver</button>
+            <h2>Conoce las Letras 🌺</h2>
+            <div class="controles-audio">
+                <button id="btn-audio" class="boton-icono" onclick="toggleAudio()">🔊</button>
+            </div>
+        </div>
+        
+        <div class="contenedor-juego">
+            <div id="flor-letra-grande" class="flor-letra-grande"></div>
+            <div class="botones-navegacion">
+                <button class="boton-nav" onclick="letraAnterior()">⬅️ Anterior</button>
+                <button class="boton-nav" onclick="repetirAudio()">🔊 Repetir</button>
+                <button class="boton-nav" onclick="letraSiguiente()">Siguiente ➡️</button>
+            </div>
+            <div class="selector-tipo">
+                <button class="boton-tipo activo" onclick="cambiarTipo('mayuscula')">MAYÚSCULA</button>
+                <button class="boton-tipo" onclick="cambiarTipo('minuscula')">minúscula</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla: Encuentra la Letra -->
+    <div id="pantalla-encuentra-letra" class="pantalla">
+        <div class="header-juego">
+            <button class="boton-volver" onclick="volverAlMenu()">⬅️ Volver</button>
+            <h2>Encuentra la Letra 🔍</h2>
+            <div class="vidas">
+                <span id="corazones">❤️❤️❤️</span>
+            </div>
+        </div>
+        
+        <div class="contenedor-juego">
+            <div class="instruccion-juego">
+                <p id="instruccion-texto">Escucha y toca la letra correcta</p>
+                <button class="boton-principal" onclick="reproducirLetraObjetivo()">🔊 Escuchar</button>
+            </div>
+            <div id="opciones-letras" class="grid-opciones"></div>
+            <div class="puntuacion">
+                <p>Aciertos: <span id="aciertos">0</span> / <span id="total-intentos">10</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pantalla: Forma Palabras -->
+    <div id="pantalla-forma-palabras" class="pantalla">
+        <div class="header-juego">
+            <button class="boton-volver" onclick="volverAlMenu()">⬅️ Volver</button>
+            <h2>Forma Palabras 🌼</h2>
+            <div class="puntuacion-palabras">
+                <span>Palabra <span id="numero-palabra">1</span>/10</span>
+            </div>
+        </div>
+        
+        <div class="contenedor-juego">
+            <div id="ilustracion-palabra" class="ilustracion-palabra"></div>
+            <div id="zona-construccion" class="zona-construccion"></div>
+            <div id="letras-disponibles" class="letras-disponibles"></div>
+            <button class="boton-principal" onclick="verificarPalabra()">✓ Comprobar</button>
+        </div>
+    </div>
+
+    <!-- Pantalla: Jardín de Sílabas -->
+    <div id="pantalla-jardin-silabas" class="pantalla">
+        <div class="header-juego">
+            <button class="boton-volver" onclick="volverAlMenu()">⬅️ Volver</button>
+            <h2>Jardín de Sílabas 🌻</h2>
+        </div>
+        
+        <div class="contenedor-juego">
+            <div class="selector-familia">
+                <button class="boton-familia" onclick="seleccionarFamilia('M')">MA-ME-MI-MO-MU</button>
+                <button class="boton-familia" onclick="seleccionarFamilia('P')">PA-PE-PI-PO-PU</button>
+                <button class="boton-familia" onclick="seleccionarFamilia('S')">SA-SE-SI-SO-SU</button>
+                <button class="boton-familia" onclick="seleccionarFamilia('T')">TA-TE-TI-TO-TU</button>
+                <button class="boton-familia" onclick="seleccionarFamilia('L')">LA-LE-LI-LO-LU</button>
+            </div>
+            <div id="contenedor-silabas" class="contenedor-silabas"></div>
+        </div>
+    </div>
+
+    <!-- Pantalla: Camino del Abecedario -->
+    <div id="pantalla-camino-abecedario" class="pantalla">
+        <div class="header-juego">
+            <button class="boton-volver" onclick="volverAlMenu()">⬅️ Volver</button>
+            <h2>Camino del Abecedario 🌈</h2>
+        </div>
+        
+        <div class="contenedor-juego">
+            <div id="mapa-abecedario" class="mapa-abecedario"></div>
+        </div>
+    </div>
+
+    <!-- Pantalla: Estadísticas -->
+    <div id="pantalla-estadisticas" class="pantalla">
+        <div class="header-juego">
+            <button class="boton-volver" onclick="volverAlMenu()">⬅️ Volver</button>
+            <h2>Mi Progreso 📊</h2>
+        </div>
+        
+        <div class="contenedor-juego">
+            <div class="tarjeta-estadistica">
+                <h3>⏱️ Tiempo Jugado</h3>
+                <p class="stat-numero"><span id="tiempo-jugado">0</span> minutos</p>
+            </div>
+            <div class="tarjeta-estadistica">
+                <h3>⭐ Estrellas Ganadas</h3>
+                <p class="stat-numero"><span id="total-estrellas">0</span></p>
+            </div>
+            <div class="tarjeta-estadistica">
+                <h3>🌺 Letras Aprendidas</h3>
+                <p class="stat-numero"><span id="letras-aprendidas">0</span>/27</p>
+            </div>
+            <div class="tarjeta-estadistica">
+                <h3>✅ Aciertos Totales</h3>
+                <p class="stat-numero"><span id="aciertos-totales">0</span></p>
+            </div>
+            
+            <button class="boton-reiniciar" onclick="reiniciarJuego()">
+                🔄 Reiniciar Juego y Borrar Progreso
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Celebración -->
+    <div id="modal-celebracion" class="modal">
+        <div class="modal-contenido celebracion">
+            <div class="estrella-grande">⭐</div>
+            <h2 id="mensaje-celebracion">¡Muy Bien!</h2>
+            <button class="boton-principal" onclick="cerrarModal()">Continuar</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/data.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/audio-synth.js"></script>
+    <script src="js/letter-generator.js"></script>
+    <script src="js/svg-illustrations.js"></script>
+    <script src="js/game-engine.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
